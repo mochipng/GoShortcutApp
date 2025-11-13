@@ -32,5 +32,21 @@ func main() {
 
 		// trim whitespace
 		input = strings.TrimSpace(input)
+
+		// call function based on user input
+		switch input {
+		case "1":
+			addShortcut()
+		case "2":
+			deleteShortcut()
+		case "3":
+			viewAllShortcuts()
+		case "4":
+			fmt.Println("Exiting program...")
+			return
+		default:
+			fmt.Println("Invalid option, must be 1-4.")
+			continue
+		}
 	}
 }
