@@ -7,10 +7,11 @@ import (
 
 // storing shortcuts
 var shortcuts = map[string]string{}
+var shortcutCounter = 0
 
 func findShortcut(name string) (string, bool) {
-	for code, value := range shortcuts {
-		if name == value {
+	for code, shortcutName := range shortcuts {
+		if name == shortcutName {
 			return code, true
 		}
 	}
@@ -22,8 +23,8 @@ func hasShortcuts() bool {
 }
 
 func generateCode() string {
-	number := len(shortcuts) + 1
-	return fmt.Sprintf("%03d", number)
+	shortcutCounter++
+	return fmt.Sprintf("%03d", shortcutCounter)
 }
 
 func addShortcut(name string) (string, error) {
