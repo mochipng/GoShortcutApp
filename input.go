@@ -15,7 +15,7 @@ func getInput(prompt string) string {
 		input, err := reader.ReadString('\n')
 
 		if err != nil {
-			fmt.Println("Error reading input:", err)
+			fmt.Errorf("Error reading input:", err)
 			continue
 		} else {
 			return strings.TrimSpace(input)

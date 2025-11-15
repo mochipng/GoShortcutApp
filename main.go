@@ -26,7 +26,7 @@ func main() {
 		input, err := reader.ReadString('\n')
 
 		if err != nil {
-			fmt.Println("Error reading input:", err)
+			fmt.Errorf("Error reading input:", err)
 			continue
 		}
 
@@ -36,7 +36,7 @@ func main() {
 		// call function based on user input
 		switch input {
 		case "1":
-			addShortcut()
+			addShortcut(input)
 		case "2":
 			deleteShortcut()
 		case "3":
