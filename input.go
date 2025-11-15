@@ -24,5 +24,12 @@ func getInput(prompt string) string {
 }
 
 func validateInput(prompt string, validate func(string) bool) string {
+	for {
+		input := getInput(prompt)
+		if validate(input) {
+			return input
+		}
 
+		fmt.Println("Invalid input, please try again.")
+	}
 }
