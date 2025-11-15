@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -8,8 +9,8 @@ import (
 var shortcuts = map[string]string{}
 
 func findShortcut(name string) (string, bool) {
-	for code, keys := range shortcuts {
-		if name == keys {
+	for code, value := range shortcuts {
+		if name == value {
 			return code, true
 		}
 	}
@@ -18,24 +19,22 @@ func findShortcut(name string) (string, bool) {
 
 func addShortcut(name string) (string, error) {
 	if name == "" {
-		return "", fmt.Errorf("Cannot add: cannot be empty")
+		return "", errors.New("Error: cannot be empty")
 	}
 
 	code := generateCode()
 	shortcuts[code] = name
-
-	fmt.Printf("New shortcut created: %s", name)
 	return code, nil
 }
 
 func deleteShortcut(name string, validate func(string) bool) error {
 	if !validate(name) {
-		return fmt.Errorf("Error: shortcut name not valid")
+		return errors.New("Error: shortcut name not valid")
 	}
 
 	code, found := findShortcut(name)
 	if !found {
-		return fmt.Errorf("Error: shortcut not found")
+		return errors.New("Error: shortcut not found")
 	}
 
 	delete(shortcuts, code)
@@ -43,7 +42,17 @@ func deleteShortcut(name string, validate func(string) bool) error {
 
 }
 
-func viewAllShortcuts() string {}
+func viewAllShortcuts() {
+	if len(shortcuts) == 0 {
+		fmt.Println("No shortcuts added.")
+		return
+	}
+
+	fmt.Println("All shortcuts:")
+	for code, name := range shortcuts {
+		fmt.Printf("%s -> %s\n", code, name)
+	}
+}
 
 func generateCode() string {
 	number := len(shortcuts) + 1

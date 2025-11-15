@@ -36,7 +36,14 @@ func main() {
 		// call function based on user input
 		switch input {
 		case "1":
-			addShortcut(input)
+			code, err := addShortcut(input)
+
+			if err != nil {
+				fmt.Println("Error:", err)
+			} else {
+				fmt.Printf("Shortcut created. Code: %s, Action: %s", code, input)
+			}
+
 		case "2":
 			deleteShortcut()
 		case "3":
