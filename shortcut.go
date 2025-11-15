@@ -17,24 +17,25 @@ func findShortcut(name string) (string, bool) {
 	return "", false
 }
 
-func addShortcut(name string) (string, error) {
-	if name == "" {
-		return "", errors.New("Error: cannot be empty")
-	}
+func hasShortcuts() bool {
+	return len(shortcuts) > 0
+}
 
+func generateCode() string {
+	number := len(shortcuts) + 1
+	return fmt.Sprintf("%03d", number)
+}
+
+func addShortcut(name string) (string, error) {
 	code := generateCode()
 	shortcuts[code] = name
 	return code, nil
 }
 
-func deleteShortcut(name string, validate func(string) bool) error {
-	if !validate(name) {
-		return errors.New("Error: shortcut name not valid")
-	}
-
+func deleteShortcut(name string) error {
 	code, found := findShortcut(name)
 	if !found {
-		return errors.New("Error: shortcut not found")
+		return errors.New("shortcut not found")
 	}
 
 	delete(shortcuts, code)
@@ -43,18 +44,8 @@ func deleteShortcut(name string, validate func(string) bool) error {
 }
 
 func viewAllShortcuts() {
-	if len(shortcuts) == 0 {
-		fmt.Println("No shortcuts added.")
-		return
-	}
-
 	fmt.Println("All shortcuts:")
 	for code, name := range shortcuts {
 		fmt.Printf("%s -> %s\n", code, name)
 	}
-}
-
-func generateCode() string {
-	number := len(shortcuts) + 1
-	return fmt.Sprintf("%03d", number)
 }

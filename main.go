@@ -1,10 +1,7 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strings"
 )
 
 func main() {
@@ -19,41 +16,44 @@ func main() {
 	4. Exit
 	`
 
-	reader := bufio.NewReader(os.Stdin)
-
 	for {
-		fmt.Print(menu)
-		input, err := reader.ReadString('\n')
-
-		if err != nil {
-			fmt.Errorf("Error reading input:", err)
-			continue
-		}
-
-		// trim whitespace
-		input = strings.TrimSpace(input)
+		fmt.Println(menu)
+		input := getInput("> ")
 
 		// call function based on user input
 		switch input {
 		case "1":
-			code, err := addShortcut(input)
+			name := getValidateInput("Enter shortcut name: ", validateInput)
+			code, err := addShortcut(name)
+
+			if err != nil {
+				fmt.Print("Error:", err)
+			} else {
+				fmt.Printf("Shortcut created. Code: %s, Action: %s\n", code, name)
+			}
+
+		case "2":
+			name := getValidateInput("Enter shortcut name: ", validateInput)
+			err := deleteShortcut(name)
 
 			if err != nil {
 				fmt.Println("Error:", err)
 			} else {
-				fmt.Printf("Shortcut created. Code: %s, Action: %s", code, input)
+				fmt.Println("Shortcut deleted.")
 			}
 
-		case "2":
-			deleteShortcut()
 		case "3":
-			viewAllShortcuts()
+			if !hasShortcuts() {
+				fmt.Println("No shortcuts added.")
+			} else {
+				viewAllShortcuts()
+			}
+
 		case "4":
 			fmt.Println("Exiting program...")
 			return
 		default:
 			fmt.Println("Invalid option, must be 1-4.")
-			continue
 		}
 	}
 }
