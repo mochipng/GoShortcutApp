@@ -1,14 +1,14 @@
 # build program
 build:
-	go build -o shortcutApp main.go
+	go build -o shortcutApp .
 
 # run
 run:
-	go run main.go
+	go run .
 
 # build and run during development
 dev: build
-	shortcutApp.exe
+	./shortcutApp
 
 # remove binary
 clean:
